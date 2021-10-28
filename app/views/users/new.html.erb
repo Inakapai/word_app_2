@@ -1,0 +1,29 @@
+<div class="container clearfix">
+    <h3>ユーザ作成画面</h3>
+    <% @user.errors.full_messages.each do |message| %>
+        <div class = "form-error">
+        <%= message %>
+        </div>
+    <% end %>    
+    <% if @error_message %>
+        <div class ="form_error">
+            <%= @error_message %>
+        </div>
+    <% end %>
+    <div class="layout">
+    <%= form_tag("/posts/create") do %>
+        <p>name</p>
+        <input type="text" name="name" class="textbox">
+        <p>email</p>
+        <input type="text" name="email" class="textbox">
+        <p>Password</p>
+        <input type="password" name="password" class="textbox">
+        <p>Password(もう一度)</p>
+        <input type="password" name="c_password" class="textbox">
+        <input type="submit" value="作成"  class="btn">
+    <% end %>    
+        <div class="link">
+            <%= link_to("ログイン","/") %>
+        </div>    
+    </div>  
+</div>      

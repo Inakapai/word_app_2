@@ -1,0 +1,16 @@
+<div class="container clearfix">
+    <h3>単語タグマスタ</h3>
+    <% @tag.errors.full_messages.each do |message| %>
+        <div class = "form-error">
+        <%= message %>
+        </div>
+    <% end %> 
+    <div class="layout">
+    <p>作成したいタグを入力してください</p>
+    <%= form_tag("/tag/create") do %>
+        <input name="tag">
+        <input type="submit" value="作成">
+    <% end %>
+    <%= link_to("メニュー","/tag") %>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<%= form_tag "/book/lastjudge" do %>
+    <div class="framework">
+        <div class="left">
+            <%= "第#{$count_number}問"%>    
+        </div>
+        <div>（全10問）</div>
+        <div>
+            <div class="left">問題：</div>
+            <%= question.name %>
+        </div>
+        <div>
+            <p>[類似語]</p>
+            <% similars.each do |similar| %>
+                <ul>
+                <%= similar %>
+                </ul>
+            <% end %>
+        </div>
+        <p>解答</p>
+    <% if question.user_answer == 1 %>
+        <div>
+            <%= radio_button_tag("useranswer","1",{:checked => true}) %>
+            <%= label_tag("useranswer_1","#{question.option1}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","2") %>
+            <%= label_tag("useranswer_2","#{question.option2}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","3") %>
+            <%= label_tag("useranswer_3","#{question.option3}") %>
+        </div>
+
+    <% elsif question.user_answer == 2 %>
+        <div>
+            <%= radio_button_tag("useranswer","1") %>
+            <%= label_tag("useranswer_1","#{question.option1}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","2",{:checked => true}) %>
+            <%= label_tag("useranswer_2","#{question.option2}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","3") %>
+            <%= label_tag("useranswer_3","#{question.option3}") %>
+        </div>
+    
+    <% elsif question.user_answer == 3 %>
+        <div>
+            <%= radio_button_tag("useranswer","1") %>
+            <%= label_tag("useranswer_1","#{question.option1}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","2") %>
+            <%= label_tag("useranswer_2","#{question.option2}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","3",{:checked => true}) %>
+            <%= label_tag("useranswer_3","#{question.option3}") %>
+        </div>
+    
+    <% else %>
+        <div>
+            <%= radio_button_tag("useranswer","1") %>
+            <%= label_tag("useranswer_1","#{question.option1}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","2") %>
+            <%= label_tag("useranswer_2","#{question.option2}") %>
+        </div>
+        <div>
+            <%= radio_button_tag("useranswer","3") %>
+            <%= label_tag("useranswer_3","#{question.option3}") %>
+        </div>
+
+    <% end %>
+    </div>
+        <div class="right">
+            <%= submit_tag ("採点する") %>   
+        </div>
+<% end %>
+<div class="left back">
+    <%= form_tag "/book/back", remote: true do %>
+        <%= submit_tag("前の問題へ") %>
+    <% end %>
+</div>
+<div class="link aaa">
+<%= link_to("問題一覧","/book/#{question.id}/stop") %>
+</div>

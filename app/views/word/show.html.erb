@@ -1,0 +1,20 @@
+<div class = "container clearfix">
+<h3>単語マスタ</h3>
+    <%if @word.image_name %>
+        <div class="center image">
+            <%= image_tag "/word_images/#{@word.image_name}", size: "150x150" %>
+        </div>
+    <% else %>
+        <div class="img"></div>
+    <% end %>
+    <div class="show">
+        <%= @word.name %>
+    </div>
+    <div class="showmenu">
+        <%= link_to("修正","/word/#{@word.id}/edit") %>
+        <%= link_to("削除","/word/#{@word.id}/delete",method: :post) %>
+    </div>
+    <div class="link">
+        <%= link_to("メニュー","/word") %>
+    </div>
+</div>

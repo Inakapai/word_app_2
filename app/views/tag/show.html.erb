@@ -1,0 +1,12 @@
+<div class ="container clearfix">
+    <h3>単語タグマスタ</h3>
+    <div class="show">
+    <%= @tag.name %>
+    </div>
+    <div class="showmenu">
+    <%= link_to("修正","/tag/#{@tag.id}/edit") %>
+    <%= link_to("削除","/tag/#{@tag.id}/delete",method: :post) %>
+    </div>
+    <div class="link">
+    <%= link_to("メニュー","/tag") %>
+</div>

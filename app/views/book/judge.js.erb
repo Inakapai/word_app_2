@@ -1,0 +1,7 @@
+$(function(){
+    $('.frame').html('<%= j(render 'question_another',number: $count_number, question: @question_next, similars: @similars_next) %>');
+    
+    if (<%= $count_number %> == 10 ){
+        $('.container').html('<%= j(render 'question_last',number: $count_number, question: @question_next, similars: @similars_next) %>');
+    }
+});

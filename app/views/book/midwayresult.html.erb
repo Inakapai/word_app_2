@@ -1,0 +1,28 @@
+<div class="container clearfix">
+    <h3>単語帳</h3>
+    <div class="create_header">
+        <span class="content">問題</span>
+        <span class="content c1">回答</span>
+        <span class="content c2">正解・不正解</span>
+    </div>
+    <% @ids.each do |id| %>  
+        <% question = Question.find_by(id: id) %>
+        <div class="DivLink">
+        <span><%= @number %></span> 
+        <span class="content cr0"><%= "#{question.name}の意味は？" %></span>
+        <% if !question.user_answer %>
+            <span class="content c1"><%= "未回答" %></span>
+        <% else %>
+            <span class="content c1"><%= question.user_answer %></span>
+        <% end %>
+        <a class ="Link" href="/book/<%= @number %>/question/<%= question.id %>"></a>
+        <% @number = @number+1 %>
+        </div>
+    <% end %>
+    <div class="stop">
+        <%= link_to("中断する","/book") %>
+    </div>
+    <div class="right">
+        <%= link_to("採点する","/book/result") %>
+    </div>
+</div>    

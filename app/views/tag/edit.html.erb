@@ -1,0 +1,15 @@
+<div class="container clearfix">
+    <h3>単語タグマスタ</h3>
+    <% @tag.errors.full_messages.each do |message| %>
+        <div class = "form-error">
+        <%= message %>
+        </div>
+    <% end %> 
+    <%= form_tag("/tag/#{@tag.id}/update") do %>
+    <input name="tag" value="<%= @tag.name %>" >
+    <input type="submit" value="修正">
+    <% end %>
+    <div class="link">
+    <%= link_to("メニュー","/tag") %>
+    </div>
+</div>    

@@ -1,0 +1,25 @@
+ja:
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+      truncate: "..."
+  activerecord:
+    models:
+      user: ユーザー
+      tag: タグ
+      word: ワード
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+      tag:  
+        name: タグ
+      word:
+        name: 単語
+        meaning: 意味
+    
+

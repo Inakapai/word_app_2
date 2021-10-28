@@ -1,0 +1,31 @@
+<div class="container clearfix">
+    <h3>単語マスタ</h3>
+    <% @word.errors.full_messages.each do |message| %>
+        <div class = "form-error">
+        <%= message %>
+        </div>
+    <% end %> 
+    <%= form_with url: "/word/#{@word.id}/update" do |f| %>
+            <div class="block>
+            <%= f.label "単語:" %>
+            <%= f.text_field :name, value: @word.name %>
+            </div>
+            <div class="block">
+            <%= f.label "意味:" %>
+            <%= f.text_field :meaning, value: @word.meaning %>
+            </div>
+            <div class="block">
+            <%= f.label "画像:" %>
+            <%= f.file_field :image_name, value: @word.image_name %>
+            </div>
+            <div class="block">
+            <%= f.label "タグ:" %>
+            <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name, {checked: @datas} %>
+            </div>
+            <div class="submit">
+            <%= f.submit "修正" %>
+    <% end %>
+    <div class="link">
+    <%= link_to("メニュー","/word") %>
+    </div>
+</div>    

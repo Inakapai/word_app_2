@@ -1,0 +1,35 @@
+<div class="container clearfix">
+    <h3>単語マスタ</h3> 
+    <% if @name != "" %> 
+        <div>
+            <% @words.each do |word|%>
+                <div>
+                    <% @similars = Similar.where(word_id: word.id) %>
+                    <% if @similars[0] %>
+                        <div class = "result">
+                            <% if word.user_id == $current_user.id %>
+                                <div>
+                                    <%= link_to(word.name,"/word/#{word.id}") %>
+                                    <%= word.meaning %>
+                                </div>
+                            <% else %>
+                                <div>
+                                    <%= word.name %>
+                                    <%= word.meaning %>
+                                </div>
+                            <% end %>
+                            <% @similars.each do |similar| %> 
+                                <%= similar.name %>
+                            <% end %>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+    <% end %>
+    <div class="csv_output">
+        <%= link_to "csvで出力する", "/word/search_similar?format=csv"%>
+    </div>
+    <div class="link">
+        <%= link_to("検索画面","/word/search") %>
+    </div>
+</div>

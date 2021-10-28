@@ -1,0 +1,20 @@
+<div class="container clearfix">
+    <h3>単語帳</h3>
+    <div class="create_header">
+        <%= "問題" %>
+        <%= "回答" %>
+        <%= "正解・不正解" %>
+    </div>
+    <% @question_ids.each do |question_id| %>  
+        <% q = Question.find_by(id: question_id) %>
+        <div class="DivLink">
+        <%= @number %>
+        <%= "#{q.name}の意味は？" %>
+        <a class ="Link" href="/book/<%= @number %>/question/<%= question_id %>"></a>
+        <% @number = @number+1 %>
+        </div>
+    <% end %>
+    <div class="link">
+    <%= link_to("メニュー","/book") %>
+    </div> 
+</div>    

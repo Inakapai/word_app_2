@@ -1,0 +1,18 @@
+<div class="container clearfix">
+    <h3>単語帳 LOGIN</h3>
+    <% if @error_message %>
+    <%= @error_message %>
+    <% end %>
+    <div class="layout">
+    <%= form_tag("/posts/login") do %>
+        <p>email</p>
+        <input type="text" name="email" class="textbox">
+        <p>Password</p>
+        <input type="password" name="password" class="textbox">
+        <input type="submit" value="ログイン" class="btn">
+    <% end %>    
+        <div class="link">
+        <%= link_to("新しいユーザを登録","/signup") %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container clearfix">
+    <h3>単語帳</h3>
+    <div class="create_header">
+        <span class="content">問題</span>
+        <span class="content c1">回答</span>
+        <span class="content c2">正解・不正解</span>
+    </div>
+    <% @q_ids.each do |q_id| %>  
+        <% q = Question.find_by(id: q_id) %>
+        <% q.save %>
+        <div class="DivLink">
+        <%= @number %>
+        <span class="content cr0"><%= "#{q.name}の意味は？" %></span>
+        <% if q.user_answer %>
+            <span class="content c1"><%= q.user_answer %></span>
+        <% else %>
+            <span class="content c1">未回答</span>
+        <% end %>
+            <span class="content cr2"><%= q.result %></span>
+            <% @number = @number+1 %>
+        </div>
+    <% end %>
+    <div class="link">
+    <%= link_to("メニュー","/book") %>
+    </div> 
+</div>    

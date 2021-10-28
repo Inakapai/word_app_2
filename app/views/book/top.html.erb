@@ -1,0 +1,23 @@
+<div class="container clearfix">
+    <h3>単語帳</h3>
+    <div class="center">
+    <%= link_to("新しく単語帳を始める","/book/create") %>
+    </div>
+    <% @wordbooks.each do |wordbook| %>
+        <div class="center past">
+            <% if wordbook.finish_number == 10 %>
+                <p><%= wordbook.correct_number %>/10点<p>
+                <%= link_to("もう一度やる","/book/#{wordbook.id}/again") %>
+                <%= link_to("回答を見る","/book/#{wordbook.id}/show") %>
+            <% else %>
+                <p>/10点<p>
+                <%= link_to("もう一度やる","/book/#{wordbook.id}/again") %>
+                <%= link_to("続きから","/book/#{wordbook.id}/continue") %>
+            <% end %>
+        </div>
+    <% end %>
+    <div class="center pagenation"><%= paginate(@wordbooks) %></div>
+    <div class="link clear">
+        <%= link_to("メインメニュー","/main") %>
+    </div>
+</div>

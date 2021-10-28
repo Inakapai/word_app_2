@@ -1,0 +1,15 @@
+<div class="container clearfix">
+    <h3>単語タグマスタ</h3> 
+    <div>
+    <% @tags.each do |tag|%>
+        <% if tag.user_id == $current_user.id %>
+        <%= link_to(tag.name,"/tag/#{tag.id}") %>
+        <% else %>
+        <%= tag.name %>
+        <% end %>
+    <% end %>
+    <div class="link">
+    <%= link_to("メニュー","/tag") %>
+    </div>
+    </div>
+</div>

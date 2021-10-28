@@ -1,0 +1,2 @@
+class QuestionSimilarWord < ApplicationRecord
+end

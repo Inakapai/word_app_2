@@ -1,0 +1,10 @@
+<div class="container clearfix">
+    <h3>単語帳</h3>
+    <div class="frame">
+    <% if @number<10 %>
+        <%= render partial: 'question_another' ,locals: {number: @number, question: @question, similars: @similars} %>
+    <% else %>
+        <%= render partial: 'question_last' ,locals: {number: @number, question: @question, similars: @similars} %>
+    <% end %>
+    </div>
+</div>   

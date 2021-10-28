@@ -1,0 +1,37 @@
+<div class="container clearfix">
+    <h3>単語マスタ</h3>
+    <% @word.errors.full_messages.each do |message| %>
+        <div class = "form-error">
+        <%= message %>
+        </div>
+    <% end %> 
+    <% if @error_message %>
+    <%= @error_message %>
+    <% end %>
+    <div class="layout">
+        <%= form_with url: "/word/#{@id}/similar_create" do |f|%>
+            <div class="block>
+            <%= f.label "単語:" %>
+            <%= f.text_field :name %>
+            </div>
+            <div class="block">
+            <%= f.label "意味:" %>
+            <%= f.text_field :meaning %>
+            </div>
+            <div class="block">
+            <%= f.label "画像:" %>
+            <%= f.file_field :image_name %>
+            </div>
+            <div class="block">
+            <%= f.label "タグ:" %>
+            <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name %>
+            </div>
+            <div class="submit">
+            <%= f.submit "作成" %>
+            </div>
+        <% end %>
+        <div class="link">
+            <%= link_to("メニュー","/word") %>
+        </div>
+    </div>
+</div>

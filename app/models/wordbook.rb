@@ -1,0 +1,2 @@
+class Wordbook < ApplicationRecord
+end
