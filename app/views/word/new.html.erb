@@ -2,11 +2,11 @@
     <h3>単語マスタ</h3>
     <% @word.errors.full_messages.each do |message| %>
         <div class = "form-error">
-        <%= message %>
+            <%= message %>
         </div>
     <% end %> 
     <% if @error_message %>
-    <%= @error_message %>
+        <%= @error_message %>
     <% end %>
     <div class="layout">
     <%= form_with model: @word, url:"/word/create", local:true do |s| %>
@@ -17,7 +17,7 @@
 
         <div class="parents">
             <%= s.fields_for :similars do |t| %>
-                <%= render "similar_fields", f: t %>
+                <%= render 'similar_fields', f: t %>
             <% end %>
             <div class="links">
                 <%= link_to_add_association "類似語を追加", s, :similars %>
@@ -44,4 +44,7 @@
             <%= s.submit "作成" %>
         </div>
     <% end %>
+    <div class="link">
+        <%= link_to("メニュー","/word") %>
+    </div>
 </div>

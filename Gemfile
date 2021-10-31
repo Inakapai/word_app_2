@@ -63,3 +63,5 @@ gem 'kaminari'
 gem 'jquery-rails'
 gem 'cocoon'
 gem 'pry-rails'
+gem 'pry-byebug'
+

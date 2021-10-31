@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get "word/search_similar" => "word#search_similar"
   get "word/:id/edit" => "word#edit"
   post "word/:id/update" => "word#update"
+  patch "word/:id/update" => "word#update"
   post "word/:id/delete" => "word#delete"
   get "word/:id" => "word#show"
 
