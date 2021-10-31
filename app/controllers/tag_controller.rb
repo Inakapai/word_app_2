@@ -1,6 +1,5 @@
 class TagController < ApplicationController
     before_action :authenticate_user
-    before_action :limit_user, {only: [:show, :edit, :update, :delete]}
     before_action :limit_tag_user, {only: [:show, :edit, :update, :delete]}
     def top
     end
