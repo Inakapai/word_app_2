@@ -5,27 +5,41 @@
         <%= message %>
         </div>
     <% end %> 
-    <%= form_with url: "/word/#{@word.id}/update" do |f| %>
-            <div class="block>
-            <%= f.label "単語:" %>
-            <%= f.text_field :name, value: @word.name %>
-            </div>
-            <div class="block">
-            <%= f.label "意味:" %>
-            <%= f.text_field :meaning, value: @word.meaning %>
-            </div>
-            <div class="block">
-            <%= f.label "画像:" %>
-            <%= f.file_field :image_name, value: @word.image_name %>
-            </div>
-            <div class="block">
-            <%= f.label "タグ:" %>
-            <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name, {checked: @datas} %>
-            </div>
-            <div class="submit">
-            <%= f.submit "修正" %>
+    <% if @error_message %>
+        <%= @error_message %>
     <% end %>
+    <div class="layout">
+        <%= form_with model: @word, url:"/word/#{@word.id}/update", local:true do |s| %>
+                <div class="block>
+                    <%= s.label "単語:" %>
+                    <%= s.text_field :name %>
+                </div>
+                <div class="parents">
+                    <%= s.fields_for :similars do |t| %>
+                        <%= render 'similar_fields', f: t %>
+                    <% end %>
+                    <div class="links">
+                        <%= link_to_add_association "類似語を追加", s, :similars %>
+                    </div>
+                </div>
+                <div class="block">
+                    <%= s.label "意味:" %>
+                    <%= s.text_field :meaning %>
+                </div>
+                <div class="block">
+                    <%= s.label "画像:" %>
+                    <%= s.file_field :image %>
+                </div>
+                <div class="block">
+                    <%= s.label "タグ:" %>
+                    <%= s.collection_check_boxes :tag_ids, Tag.all, :id, :name, {checked: @datas} %>
+                </div>
+                <div class="submit">
+                    <%= s.submit "修正" %>
+                </div>
+        <% end %>
+    </div>
     <div class="link">
-    <%= link_to("メニュー","/word") %>
+        <%= link_to("メニュー","/word") %>
     </div>
 </div>    

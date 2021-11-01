@@ -14,6 +14,7 @@ class WordController < ApplicationController
 
     def new
         @word = Word.new
+        @similars = nil
     end
 
     def create
@@ -149,6 +150,7 @@ class WordController < ApplicationController
 
     def edit
         @word = Word.find_by(id: params[:id])
+        @similars = Similar.where(word_id: @word.id)
         @datas = []
         @tag_words = TagWord.where(word_id: params[:id])
         @tag_words.each do |tag_word|
@@ -161,22 +163,40 @@ class WordController < ApplicationController
 
     def update
         @word = Word.find_by(id: params[:id])
-        @word.name = params[:name]
-        @word.meaning = params[:meaning]
-        @word.image_name = params[:image_name]
-        if @word.save
-            @tag_words = TagWord.where(word_id: @word.id)
-            @tag_words.each do |tag_word|
-            tag_word.destroy
+        @word.update(parent_params)
+        @word.user_id = $current_user.id
+        @tag_ids = params[:word][:tag_ids]
+        @tag_word_delete = TagWord.where(word_id: @word.id)
+        @tag_word_delete.each do |tag_word_delete| 
+            if !@tag_ids.include?(tag_word_delete.id)
+                tag_word_delete.destroy
             end
-            params[:tag_ids].each do |tag_id|
-                @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
-                @tag_word.save
+        end
+        if @word.save
+            @tag_ids.each do |tag_id|
+                if(tag_id != nil && tag_id != "")
+                    @tag_word_solid = TagWord.find_by(tag_id: tag_id, word_id: @word.id)
+                    if !@tag_word_solid 
+                        @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
+                        @tag_word.save
+                    end
+                end
+            end
+            if params[:word][:image]
+
+                @word.image_name = "#{@word.id}.png"
+                image=params[:word][:image]
+                if File.exist?("#{@word.image_name}")
+                    File.delete("#{@word.image_name}")
+                end
+                File.binwrite("public/word_images/#{@word.image_name}",image.read)
+                @word.save
             end
             redirect_to("/word")
         else
             render("word/edit")
         end
+
     end
 
     def delete
