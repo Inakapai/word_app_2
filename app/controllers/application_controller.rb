@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     end
 
     def limit_user
-        if $current_user.id != nil
+        if $current_user != nil
             redirect_to("/main")
         end
     end
