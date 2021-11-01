@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     require 'csv'
     before_action :set_current_user
+    before_action :limit_user
     def set_current_user
         $current_user = User.find_by(id: session[:user_id])
     end
