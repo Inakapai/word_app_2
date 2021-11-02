@@ -1,3 +1,5 @@
 $(function(){
+    
     $('.frame').html('<%= j(render 'question_another',number: $count_number, question: @question_before, similars: @similars_before) %>');
+    
 });

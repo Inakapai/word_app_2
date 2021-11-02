@@ -1,6 +1,6 @@
 <div class="container clearfix">
     <h3>Ranking</h3>
-    <% if @id < 11 %>
+    <% if @id %>
         <div class="center rank">
             <p>お疲れ様でした！</p>
             <p>あなたの成績は、10問中<%= @id.floor %>問正解 正解率
@@ -31,6 +31,6 @@
         <% end %>
     <% end %>
     <div class="link">
-        <%= link_to("メニュー","/book") %>
+        <%= link_to("メインメニュー","/main") %>
     </div>
 </div> 
