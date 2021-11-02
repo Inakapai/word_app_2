@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
   
   get "main" => "users#main" 
   get "signup" => "users#new"
@@ -46,6 +47,6 @@ Rails.application.routes.draw do
   get "book/:number/midwayresult/:id" => "book#midwayresult"
   get "book/:id/ranking" => "book#ranking"
   
-
-  get "/" => "users#top" 
+  get "/" => "users#top"
+   
 end

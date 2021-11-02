@@ -5,9 +5,6 @@
             <%= message %>
         </div>
     <% end %> 
-    <% if @error_message %>
-        <%= @error_message %>
-    <% end %>
     <div class="layout">
     <%= form_with model: @word, url:"/word/create", local:true do |s| %>
         <div class="block>

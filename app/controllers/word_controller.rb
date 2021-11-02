@@ -40,6 +40,7 @@ class WordController < ApplicationController
             end
             redirect_to("/word")
         else
+            
             render("word/new")
         end
     end
