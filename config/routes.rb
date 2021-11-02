@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   get "word" => "word#top"
   get "word/search" => "word#search"
+  get "word/result" => "word#result"
   post "word/result" => "word#result"
   get "word/new" => "word#new"
   get "word/:id/similar" => "word#similar"

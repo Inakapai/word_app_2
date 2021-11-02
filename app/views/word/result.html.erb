@@ -18,12 +18,8 @@
                 <% end %>
             <% end %>
         </div>
-    
-
-    
-
     <div class="csv_output">
-        <%= link_to "csvで出力する", "/word/search_name_meaning?format=csv" %>
+        <%= link_to "csvで出力する","/word/result?format=csv",data: { turbolinks: false } %>
     </div>
 
     <div class="link">

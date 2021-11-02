@@ -54,16 +54,16 @@ class WordController < ApplicationController
 
 
     def result
-        if params[:name] != ""
+        if params[:name] && (params[:name] != "")
             $word = params[:name]
         end
-        if params[:meaning] != ""
+        if params[:meaning] && (params[:meaning] != "")
             $meaning = params[:meaning]
         end
-        if params[:tag_ids] != [""]
+        if params[:tag_ids] && (params[:tag_ids] != [""])
             $ids = params[:tag_ids]
         end
-        if params[:similar] != ""
+        if params[:name] && (params[:similar] != "")
             $similar = params[:similar]
         end
 
@@ -92,37 +92,26 @@ class WordController < ApplicationController
             else
                 @words = Word.where(id: @similar_ids)
             end
-            
         end
         respond_to do |format|
-            format.html{
-                
-            }
+            format.html
             format.csv{
-                csv_data = CSV.generate do |csv|
-                    if $word != ""
-                        @word_names.each do |word_name|
-                            values = [word_name.name, word_name.meaning]
-                            csv << values
-                        end
-                    end
-                    if $meaning != ""
-                        @word_meanings.each do |word_meaning|
-                            values = [word_meaning.name, word_meaning.meaning]
+                bom = "\uFEFF"
+                csv_data = CSV.generate(bom) do |csv|
+                    if @words
+                        @words.each do |word|
+                            values = [word.name,word.meaning]
                             csv << values
                         end
                     end
                 end
-                send_data(csv_data, filename: "単語.csv")
+                #binding.pry
+                send_data(csv_data,filename: "単語.csv")
+                
             }
         end
 
     end
-
-    
-
-    
-    
 
     def show
         @word = Word.find_by(id: params[:id])
