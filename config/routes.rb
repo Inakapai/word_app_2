@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "signup" => "users#new"
   post "posts/create" => "users#create"
   post "posts/login" => "users#login"
-  post "posts/logout" => "users#logout"
+  get "logout" => "users#logout"
 
   get "tag" => "tag#top"
   get "tag/new" => "tag#new"
