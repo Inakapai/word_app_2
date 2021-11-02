@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
   
   get "main" => "users#main" 
   get "signup" => "users#new"
   post "posts/create" => "users#create"
   post "posts/login" => "users#login"
-  post "posts/logout" => "users#logout"
+  get "logout" => "users#logout"
 
   get "tag" => "tag#top"
   get "tag/new" => "tag#new"
@@ -18,24 +19,19 @@ Rails.application.routes.draw do
 
   get "word" => "word#top"
   get "word/search" => "word#search"
-  post "word/search_tag" => "word#search_tag"
+  get "word/result" => "word#result"
+  post "word/result" => "word#result"
   get "word/new" => "word#new"
   get "word/:id/similar" => "word#similar"
   post "word/:id/similar_create" => "word#similar_create"
   post "word/create" => "word#create"
-  post "word/search_name_meaning" => "word#search_name_meaning"
-  get "word/search_name_meaning" => "word#search_name_meaning"
-  post "word/search_tag" => "word#search_tag"
-  get "word/search_tag" => "word#search_tag"
-  post "word/search_similar" => "word#search_similar"
-  get "word/search_similar" => "word#search_similar"
   get "word/:id/edit" => "word#edit"
   post "word/:id/update" => "word#update"
   patch "word/:id/update" => "word#update"
   post "word/:id/delete" => "word#delete"
   get "word/:id" => "word#show"
 
-
+  get "book/ranking" => "book#ranking"
   get "book" => "book#top"
   get "book/create" => "book#create"
   get "book/:id/question/:q_id" => "book#question"
@@ -51,6 +47,6 @@ Rails.application.routes.draw do
   get "book/:number/midwayresult/:id" => "book#midwayresult"
   get "book/:id/ranking" => "book#ranking"
   
-
-  get "/" => "users#top" 
+  get "/" => "users#top"
+   
 end

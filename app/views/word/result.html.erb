@@ -1,51 +1,25 @@
 <div class="container clearfix">
     <h3>単語マスタ</h3>
-    <% if $word != "" %> 
+    
         <div class="result">
-            <div>
-                <span class="red"><%= $word %></span>
-                <span>の検索結果</span>
-            </div>
-            <% @word_names.each do |word_name| %>
-                <% if word_name.user_id == $current_user.id %>
-                    <div>
-                        <%= link_to(word_name.name,"/word/#{word_name.id}") %>
-                        <%= word_name.meaning %>
-                    </div>
-                <% else %>
-                    <div>
-                        <%= word_name.name %>
-                        <%= word_name.meaning %>
-                    </div>
+            <% if @words %>
+                <% @words.each do |word| %>
+                    <% if word.user_id == $current_user.id %>
+                        <div>
+                            <%= link_to(word.name,"/word/#{word.id}") %>
+                            <%= word.meaning %>
+                        </div>
+                    <% else %>
+                        <div>
+                            <%= word.name %>
+                            <%= word.meaning %>
+                        </div>
+                    <% end %>
                 <% end %>
             <% end %>
         </div>
-    <% end %>
-
-    <% if $meaning != "" %>
-        <div>
-            <div>
-                <span class="red"><%= $meaning %></span>
-                <span>の検索結果</span>
-            </div>
-            <% @word_meanings.each do |word_meaning| %>
-                <% if word_meaning.user_id == $current_user.id %>
-                    <div>
-                        <%= link_to(word_meaning.name,"/word/#{word_meaning.id}") %>
-                        <%= word_meaning.meaning %>
-                    </div>
-                <% else %>
-                    <div>
-                        <%= word_meaning.name %>
-                        <%= word_meaning.meaning %>
-                    </div>
-                <% end %>
-            <% end %>
-        </div>
-    <% end %>
-
     <div class="csv_output">
-        <%= link_to "csvで出力する", "/word/search_name_meaning?format=csv" %>
+        <%= link_to "csvで出力する","/word/result?format=csv",data: { turbolinks: false } %>
     </div>
 
     <div class="link">

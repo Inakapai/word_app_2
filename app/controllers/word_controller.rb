@@ -2,11 +2,15 @@ require "csv"
 
 class WordController < ApplicationController
     before_action :authenticate_user
-    before_action :limit_word_user, {only: [:show, :edit, :update, :delete]}
+    before_action :limit_word_user, {only: [:show, :edit]}
     def top
     end
 
     def search
+        $word = ""
+        $meaning = ""
+        $ids = [""]
+        $similar = ""
     end
 
     def csv
@@ -36,6 +40,7 @@ class WordController < ApplicationController
             end
             redirect_to("/word")
         else
+            
             render("word/new")
         end
     end
@@ -49,100 +54,65 @@ class WordController < ApplicationController
     end
 
 
-    def search_name_meaning
-        if params[:name]
+    def result
+        if params[:name] && (params[:name] != "")
             $word = params[:name]
         end
-        if params[:meaning]
+        if params[:meaning] && (params[:meaning] != "")
             $meaning = params[:meaning]
         end
-        @word_names = Word.where("name like ?","%#{$word}%")
-        @word_meanings = Word.where("meaning like ?","%#{$meaning}%")
-        respond_to do |format|
-            format.html{
-                render("word/result")
-            }
-            format.csv{
-                csv_data = CSV.generate do |csv|
-                    if $word != ""
-                        @word_names.each do |word_name|
-                            values = [word_name.name, word_name.meaning]
-                            csv << values
-                        end
-                    end
-                    if $meaning != ""
-                        @word_meanings.each do |word_meaning|
-                            values = [word_meaning.name, word_meaning.meaning]
-                            csv << values
-                        end
-                    end
-                end
-                send_data(csv_data, filename: "単語.csv")
-            }
-        end
-
-    end
-
-    def search_tag
-        if params[:tag_ids]
+        if params[:tag_ids] && (params[:tag_ids] != [""])
             $ids = params[:tag_ids]
         end
-        respond_to do |format|
-            format.html{
-                render("word/result_tag")
-            }
-            format.csv{
-                csv_data = CSV.generate do |csv|
-                    $ids.each do |id|
-                         if id != "" 
-                            @tag_words = TagWord.where(tag_id: id)
-                            value = [Tag.find_by(id: id).name]
-                            csv << value
-                            @tag_words.each do |tag_word| 
-                                word = Word.find_by(id: tag_word.word_id)
-                                values = [word.name, word.meaning]
-                                csv << values
-                            end
-                        end
-                    end
-                    
-                end
-                send_data(csv_data, filename: "単語タグ.csv")
-            }
+        if params[:name] && (params[:similar] != "")
+            $similar = params[:similar]
         end
-    end
 
-    def search_similar
-        if params[:name]
-            $search_similar = params[:name]
+        if $word != ""
+            @words = Word.where("name like ?","%#{$word}%")
         end
-        @words = Word.where("name like ?","%#{$search_similar}%")
-        @name = params[:name]
-        
+        if $meaning != ""
+            if @words
+                @words = @words.where("meaning like ?","%#{$meaning}%")
+            else
+                @words = Word.where("meaning like ?","%#{$meaning}%")
+            end
+        end
+        if $ids != [""]
+            @tag_word_ids = TagWord.where(tag_id: $ids).pluck(:word_id)
+            if @words
+                @words = @words.where(id: @tag_word_ids)
+            else
+                @words = Word.where(id: @tag_word_ids)
+            end
+        end
+        if $similar != ""
+            @similar_ids = Similar.where("name like ?","%#{$similar}%").pluck(:word_id).uniq
+            if @words
+                @words = @words.where(id: @similar_ids)
+            else
+                @words = Word.where(id: @similar_ids)
+            end
+        end
         respond_to do |format|
-            format.html{
-                render("word/result_similar")
-            }
+            format.html
             format.csv{
-                csv_data = CSV.generate do |csv|
-                    @words.each do |word|
-                        @similars = Similar.where(word_id: word.id)
-                        if @similars[0]
-                                values = [word.name,word.meaning]
-                                csv << values
-                                @similars.each do |similar| 
-                                    value = [similar.name]
-                                    csv << value
-                                end
+                bom = "\uFEFF"
+                csv_data = CSV.generate(bom) do |csv|
+                    if @words
+                        @words.each do |word|
+                            values = [word.name,word.meaning]
+                            csv << values
                         end
                     end
                 end
-                send_data(csv_data, filename: "類義語.csv")
+                #binding.pry
+                send_data(csv_data,filename: "単語.csv")
+                
             }
         end
-    end
 
-    
+    end
 
     def show
         @word = Word.find_by(id: params[:id])

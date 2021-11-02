@@ -4,6 +4,7 @@ class BookController < ApplicationController
 
     def top
         @wordbooks = Wordbook.where(user_id: $current_user.id).page(params[:page]).per(4)
+        @number = Word.all.size
     end
 
     def create
@@ -165,7 +166,7 @@ class BookController < ApplicationController
         @false = 10 - @id
         $current_user
         $current_user.false_number += @false
-        $current_user.highest_rate = (($current_user.correct_number / ($current_user.correct_number + $current_user.false_number))*100)
+        $current_user.highest_rate = $current_user.correct_number.quo($current_user.correct_number + $current_user.false_number)*100
         $current_user.save
     end
 
@@ -258,7 +259,9 @@ class BookController < ApplicationController
     end
 
     def ranking
-        @id = params[:id].to_f
+        if params[:id]
+            @id = params[:id].to_f
+        end
         @number = 1
         @users = User.all.order(highest_rate: "DESC")
     end

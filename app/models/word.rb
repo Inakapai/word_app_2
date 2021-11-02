@@ -1,6 +1,7 @@
 class Word < ApplicationRecord
     validates :name, :meaning, {presence: true}
     validates :name, {uniqueness: true}
+    #validates_associated :similars
     has_many :similars,dependent: :destroy
     has_many :tag_words,dependent: :destroy
     has_many :tags, through: :tag_words
