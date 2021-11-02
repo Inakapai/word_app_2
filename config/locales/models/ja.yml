@@ -21,5 +21,6 @@ ja:
       word:
         name: 単語
         meaning: 意味
-    
+      word/similars:
+        name: 類似語
 

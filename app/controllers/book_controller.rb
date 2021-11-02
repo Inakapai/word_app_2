@@ -4,6 +4,7 @@ class BookController < ApplicationController
 
     def top
         @wordbooks = Wordbook.where(user_id: $current_user.id).page(params[:page]).per(4)
+        @number = Word.all.size
     end
 
     def create
@@ -52,13 +53,13 @@ class BookController < ApplicationController
     end
 
     def question
-                @number = params[:id].to_i
-                @q_id = params[:q_id].to_i
-                @question = Question.find_by(id: @q_id)
-                @word = Word.find_by(name: @question.name)
-                @similars = @word.similars
-                $count_number = @number
-                $count_q_id = @q_id
+        @number = params[:id].to_i
+        @q_id = params[:q_id].to_i
+        @question = Question.find_by(id: @q_id)
+        @word = Word.find_by(name: @question.name)
+        @similars = @word.similars
+        $count_number = @number
+        $count_q_id = @q_id
     end
 
     

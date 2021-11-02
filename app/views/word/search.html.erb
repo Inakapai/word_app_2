@@ -14,7 +14,7 @@
             <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name %>
         </div>
         <div class="block">
-            <%= f.label "類義語:" %>
+            <%= f.label "類似語:" %>
             <%= f.search_field :similar %>
         </div>
         <div class="submit">
