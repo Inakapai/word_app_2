@@ -4,7 +4,13 @@
         <div class="center">
             <%= link_to("新しく単語帳を始める","/book/create") %>
         </div>
-        <% if @wordbooks %>
+        
+    <% else %>
+        <div class="center red">
+            <p>単語を10個以上登録してください</p>
+        </div>  
+    <% end %>
+    <% if @wordbooks %>
             <% @wordbooks.each do |wordbook| %>
                 <div class="center past">
                     <% if wordbook.finish_number == 10 %>
@@ -18,12 +24,7 @@
                     <% end %>
                 </div>
             <% end %>
-        <% end %>
-        <div class="center pagenation"><%= paginate(@wordbooks) %></div>
-    <% else %>
-        <div class="center red">
-            <p>単語を10個以上登録してください</p>
-        </div>  
+            <div class="center pagenation"><%= paginate(@wordbooks) %></div>
     <% end %>
         <div class="link clear">
             <%= link_to("メインメニュー","/main") %>

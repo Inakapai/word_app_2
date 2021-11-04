@@ -57,7 +57,9 @@ class BookController < ApplicationController
         @q_id = params[:q_id].to_i
         @question = Question.find_by(id: @q_id)
         @word = Word.find_by(name: @question.name)
-        @similars = @word.similars
+        if @word
+            @similars = @word.similars
+        end
         $count_number = @number
         $count_q_id = @q_id
     end
@@ -77,7 +79,9 @@ class BookController < ApplicationController
         $count_q_id += 1
         @question_next = Question.find_by(id: $count_q_id)
         @word_next = Word.find_by(name: @question_next.name)
-        @similars = @word_next.similars
+        if @word_next
+            @similars = @word_next.similars
+        end
 
         
     end
@@ -87,7 +91,9 @@ class BookController < ApplicationController
         $count_q_id -= 1
         @question_before = Question.find_by(id: $count_q_id)
         @word_before = Word.find_by(name: @question_before.name)
-        @similars = @word_before.similars
+        if @word_before
+            @similars = @word_before.similars
+        end
     end
 
     def lastjudge
@@ -244,6 +250,8 @@ class BookController < ApplicationController
             @id = params[:id].to_f
         end
         @number = 1
+        @count = 0
+        @user_before_rate = nil
         @users = User.all.order(highest_rate: "DESC")
     end
 

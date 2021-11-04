@@ -15,18 +15,30 @@
     </div>
     <% @users.each do |user| %>
         <% if user.id == $current_user.id %>
-            <div class="red">
-                <span class="adjust_1"><%= "#{@number}位" %></span>
-                <span class="adjust_2"><%= user.name %></span>
-                <span class="adjust_3"><%= "#{user.highest_rate.floor}%" %></span>
-                <% @number += 1 %>
-            </div>
-        <% else %>
+            <% if user.highest_rate == @user_before_rate %>
+                <% @count += 1 %>
+            <% else %>
+                <% @count = 0 %>
+            <% end %>
+                <div class="red">
+                    <span class="adjust_1"><%= "#{@number - @count}位" %></span>
+                    <span class="adjust_2"><%= user.name %></span>
+                    <span class="adjust_3"><%= "#{user.highest_rate.floor}%" %></span>
+                    <% @number += 1 %>
+                    <% user_before_rate = user.highest_rate %> 
+                </div>
+        <% else  %>
+            <% if user.highest_rate == @user_before_rate %>
+                <% @count += 1 %>
+            <% else %>
+                <% @count = 0 %>
+            <% end %>
             <div>
-            <span class="adjust_1"><%= "#{@number}位" %></span>
+            <span class="adjust_1"><%= "#{@number - @count}位" %></span>
             <span class="adjust_2"><%= user.name %></span>
             <span class="adjust_3"><%= "#{user.highest_rate.floor}%" %></span>
             <% @number += 1 %>
+            <% @user_before_rate = user.highest_rate %>
             </div>
         <% end %>
     <% end %>

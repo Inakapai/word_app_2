@@ -24,7 +24,8 @@ class WordController < ApplicationController
     def create
         @word = Word.new(parent_params)
         @word.user_id = $current_user.id
-        @tag_ids = params[:word][:tag_ids]
+        @tag_ids = params[:word][:tag_ids] 
+        @tag_ids = params.require(:word).permit(tag_ids: [])[:tag_ids]
         if @word.save
             @tag_ids.each do |tag_id|
                 if(tag_id != nil)
@@ -34,7 +35,7 @@ class WordController < ApplicationController
             end
             if params.require(:word)[:image]
                 @word.image_name = "#{@word.id}.png"
-                image=params.require(:word)[:image]
+                image = params.require(:word)[:image]
                 File.binwrite("public/word_images/#{@word.image_name}",image.read)
                 @word.save
             end
@@ -105,7 +106,7 @@ class WordController < ApplicationController
                         end
                     end
                 end
-                #binding.pry
+                
                 send_data(csv_data,filename: "単語.csv")
                 
             }
@@ -182,6 +183,7 @@ class WordController < ApplicationController
     def parent_params
         params.require(:word).permit(:name, :meaning, similars_attributes: [:id, :name, :_destroy])
     end
+        
 
     
 
