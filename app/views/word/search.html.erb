@@ -1,32 +1,27 @@
 <div class="container clearfix">
     <h3>単語マスタ</h3>
-    <%= form_with url:"/word/search_name_meaning" do |f| %>
-        <div>
-        <%= f.label "単語:" %>
-        <%= f.search_field :name %>
-        <%= f.label "意味:" %>
-        <%= f.search_field :meaning %>
-        <%= f.submit "検索" %> 
+    <%= form_with url:"/word/result" do |f| %>
+        <div class="block">
+            <%= f.label "単語:" %>
+            <%= f.search_field :name %>
         </div>
-    <% end %>
-    <div class ="block">
-        <%= form_with url:"/word/search_tag" do |f| %>
-            <div>
+        <div class="block">
+            <%= f.label "意味:" %>
+            <%= f.search_field :meaning %>
+        </div>
+        <div class="block">
             <%= f.label "単語タグ:" %>
             <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name %>
-            <%= f.submit "検索" %>
-            </div>
-        <% end %>
-    </div>
-    <div class ="block">    
-        <%= form_with url:"/word/search_similar" do |f| %>
-            <div>
-            <%= f.label "類義語:" %>
-            <%= f.search_field :name %>
+        </div>
+        <div class="block">
+            <%= f.label "類似語:" %>
+            <%= f.search_field :similar %>
+        </div>
+        <div class="submit">
             <%= f.submit "検索" %> 
-            </div>
-        <% end %>
-    </div>
+        </div>
+    <% end %>
+
     <div class="link">
         <%= link_to("メニュー","/word") %>
     </div>

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, {only: [:main]}
-  before_action :limit_user, {only: [:top]}
+  before_action :limit_user, {only: [:top, :new]}
 
   def top
   end

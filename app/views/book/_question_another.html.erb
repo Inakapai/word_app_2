@@ -8,14 +8,19 @@
         <div class="left">問題：</div>
         <%= question.name %>
     </div>
-    <div>
-        <p>[類似語]</p>
-        <% similars.each do |similar| %>
-            <ul>
-            <%= similar %>
-            </ul>
-        <% end %>
-    </div>
+    <% if similars %>
+        <div>
+            <p>[類似語]</p>
+            <% similars.each do |similar| %>
+                <ul>
+                <%= similar %>
+                </ul>
+            <% end %>
+        </div>
+    <% else %>
+        <div class="adjust">
+        </div>
+    <% end %>
     <p>解答</p>
     <% if question.user_answer == 1 %>
         <div>

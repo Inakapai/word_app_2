@@ -128,6 +128,10 @@
     border: 1px solid;
 }
 
+.adjust{
+    padding-bottom: 5%;
+}
+
 .adjust_1{
     display: inline-block;
     padding-left: 38%; 
@@ -160,11 +164,11 @@
 
 
 .c1{
-    position: absolute; left: 50%;
+    position: absolute; left: 49.9%;
 }
 
 .c2{
-    position: absolute; left: 70.5%;
+    position: absolute; left: 59.1%;
 }
 
 .cr2{
@@ -230,4 +234,3 @@
 .img{
     padding-top: 40px;
 }
-

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_014706) do
+ActiveRecord::Schema.define(version: 2021_11_02_111245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 2021_10_27_014706) do
   end
 
   create_table "questions", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
@@ -47,22 +49,8 @@ ActiveRecord::Schema.define(version: 2021_10_27_014706) do
     t.integer "user_answer"
   end
 
-  create_table "relations", force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "word_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "similars", force: :cascade do |t|
     t.string "name"
-    t.integer "word_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "tag_relations", force: :cascade do |t|
-    t.integer "tag_id"
     t.integer "word_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -87,12 +75,12 @@ ActiveRecord::Schema.define(version: 2021_10_27_014706) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.float "highest_rate"
+    t.integer "highest_rate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest"
-    t.float "correct_number"
-    t.float "false_number"
+    t.integer "correct_number"
+    t.integer "false_number"
   end
 
   create_table "wordbooks", force: :cascade do |t|
@@ -108,10 +96,10 @@ ActiveRecord::Schema.define(version: 2021_10_27_014706) do
     t.integer "q10_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "correct_number"
-    t.integer "user_id"
     t.integer "finish_number"
     t.integer "finish_id"
+    t.integer "user_id"
+    t.integer "correct_number"
   end
 
   create_table "words", force: :cascade do |t|
@@ -121,7 +109,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_014706) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "group_id"
   end
 
   add_foreign_key "tag_words", "tags"

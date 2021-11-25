@@ -4,6 +4,7 @@ class BookController < ApplicationController
 
     def top
         @wordbooks = Wordbook.where(user_id: $current_user.id).page(params[:page]).per(4)
+        @number = Word.all.size
     end
 
     def create
@@ -52,20 +53,15 @@ class BookController < ApplicationController
     end
 
     def question
-                @number = params[:id].to_i
-                @q_id = params[:q_id].to_i
-                @question = Question.find_by(id: @q_id)
-                @word = Word.find_by(name: @question.name)
-                @similars = []
-                if @word.group_id
-                    Word.where(group_id: @word.group_id).each do |word|
-                        @similars.push(word.name)
-                        @similars.flatten
-                    end
-                @similars.delete(@word.name)
-                end
-                $count_number = @number
-                $count_q_id = @q_id
+        @number = params[:id].to_i
+        @q_id = params[:q_id].to_i
+        @question = Question.find_by(id: @q_id)
+        @word = Word.find_by(name: @question.name)
+        if @word
+            @similars = @word.similars
+        end
+        $count_number = @number
+        $count_q_id = @q_id
     end
 
     
@@ -83,14 +79,11 @@ class BookController < ApplicationController
         $count_q_id += 1
         @question_next = Question.find_by(id: $count_q_id)
         @word_next = Word.find_by(name: @question_next.name)
-        @similars_next = []
-        if @word_next.group_id
-            Word.where(group_id: @word_next.group_id).each do |word_next|
-                @similars_next.push(word_next.name)
-                @similars_next.flatten
-            end
-            @similars_next.delete(@word_next.name)
+        if @word_next
+            @similars = @word_next.similars
         end
+
+        
     end
 
     def back
@@ -98,13 +91,8 @@ class BookController < ApplicationController
         $count_q_id -= 1
         @question_before = Question.find_by(id: $count_q_id)
         @word_before = Word.find_by(name: @question_before.name)
-        @similars_before = []
-        if @word_before.group_id
-            Word.where(group_id: @word_before.group_id).each do |word_before|
-                @similars_before.push(word_before.name)
-                @similars_before.flatten
-            end
-            @similars_before.delete(@word_before.name)
+        if @word_before
+            @similars = @word_before.similars
         end
     end
 
@@ -165,7 +153,7 @@ class BookController < ApplicationController
         @false = 10 - @id
         $current_user
         $current_user.false_number += @false
-        $current_user.highest_rate = (($current_user.correct_number / ($current_user.correct_number + $current_user.false_number))*100)
+        $current_user.highest_rate = $current_user.correct_number.quo($current_user.correct_number + $current_user.false_number)*100
         $current_user.save
     end
 
@@ -258,8 +246,12 @@ class BookController < ApplicationController
     end
 
     def ranking
-        @id = params[:id].to_f
+        if params[:id]
+            @id = params[:id].to_f
+        end
         @number = 1
+        @count = 0
+        @user_before_rate = nil
         @users = User.all.order(highest_rate: "DESC")
     end
 

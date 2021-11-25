@@ -64,11 +64,11 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.before(:each, type: :system) do
     driven_by :rack_test
-    driven_by(:selenium_chrome_headless)
+    # driven_by(:selenium_chrome_headless)
   end
 
   config.before(:each, type: :system, js: true) do
-    driven_by :selenium_chrome_headless
+    # driven_by :selenium_chrome_headless
   end
 
   Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
