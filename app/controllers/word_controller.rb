@@ -72,7 +72,8 @@ class WordController < ApplicationController
             $similar = params[:similar]
         end
 
-        if $word != ""
+        # if $word != ""
+        if $word.present? #こちらを使う
             @words = Word.where("name like ?","%#{$word}%")
         end
         if $meaning != ""
@@ -91,6 +92,7 @@ class WordController < ApplicationController
             end
         end
         if $similar != ""
+            # viewで使っていないならインスタンス変数でなくローカル変数で良い
             @similar_ids = Similar.where("name like ?","%#{$similar}%").pluck(:word_id).uniq
             if @words
                 @words = @words.where(id: @similar_ids)

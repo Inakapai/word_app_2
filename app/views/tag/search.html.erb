@@ -2,7 +2,7 @@
     <h3>単語タグマスタ</h3> 
     <div>
     <% @tags.each do |tag|%>
-        <% if tag.user_id == $current_user.id %>
+        <% if tag.user_id == $current_user.id #メソッド化しても良さそう%>
         <%= link_to(tag.name,"/tag/#{tag.id}") %>
         <% else %>
         <%= tag.name %>

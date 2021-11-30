@@ -1,5 +1,6 @@
 <div class="container clearfix">
     <h3>ユーザ作成画面</h3>
+    <%# エラーメッセージの表示部分はパーシャルに切り出して共通化した方が良い %>
     <% @user.errors.full_messages.each do |message| %>
         <div class = "form-error">
         <%= message %>
@@ -13,6 +14,7 @@
     <div class="layout">
     <%= form_tag("/posts/create") do %>
         <p>name</p>
+        <%# text_field_tagなどのメソッドを使おう %>
         <input type="text" name="name" class="textbox">
         <p>email</p>
         <input type="text" name="email" class="textbox">

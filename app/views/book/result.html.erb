@@ -6,6 +6,7 @@
         <span class="content c2">正解・不正解</span>
     </div>
     <% @ids.each do |id| %>  
+        <%# これだと毎回SQL発行されちゃうから @questions = Question.where(id: @ids)で取れないかな？%>
         <% question = Question.find_by(id: id) %>
         <div class="DivLink">
         <%= @number %>

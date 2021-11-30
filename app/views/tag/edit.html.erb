@@ -6,6 +6,7 @@
         </div>
     <% end %> 
     <%= form_tag("/tag/#{@tag.id}/update") do %>
+    <%# ヘルパーメソッド使おう %>
     <input name="tag" value="<%= @tag.name %>" >
     <input type="submit" value="修正">
     <% end %>

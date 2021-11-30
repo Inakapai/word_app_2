@@ -7,13 +7,13 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate_user
-        if @current_user == nil
+        if @current_user == nil #.nil?メソッド使う
             redirect_to("/")
         end
     end
 
     def limit_user
-        if @current_user != nil
+        if @current_user != nil #present?使う
             redirect_to("/main")
         end
     end
