@@ -1,6 +1,6 @@
 <div class="container clearfix">
     <h3>単語帳</h3>
-    <% if @number > 9 %>
+    <% if Word.word_size_valid? %>
         <div class="center">
             <%= link_to("新しく単語帳を始める","/book/create") %>
         </div>

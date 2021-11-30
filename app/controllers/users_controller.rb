@@ -13,10 +13,12 @@ class UsersController < ApplicationController
   end
 
   def create
+    # ストロングパラメータ使う
     @user=User.new(name: params[:name],email: params[:email],password: params[:password],correct_number: 0,false_number:0, highest_rate:0)
+    # わざわざparams[:password] != params[:c_password]しなくてもbcryptがやってくれる
      if params[:password] != params[:c_password]
       @error_message = "パスワードが確認用のものと一致しません"
-      render("users/new")
+      render("users/new") #pathで書く
      elsif @user.save
       session[:user_id]=@user.id
       NotificationMailer.send_welcome_email(@user).deliver_now

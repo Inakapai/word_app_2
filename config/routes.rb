@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  
+  # resorcesで調べてみよう
   get "main" => "users#main" 
   get "signup" => "users#new"
   post "posts/create" => "users#create"

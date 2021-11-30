@@ -3,8 +3,8 @@ class BookController < ApplicationController
     
 
     def top
-        @wordbooks = Wordbook.where(user_id: $current_user.id).page(params[:page]).per(4)
-        @number = Word.all.size
+        @wordbooks = Wordbook.where(user_id: @current_user.id).page(params[:page]).per(4)
+        #@number = Word.all.size
     end
 
     def create
