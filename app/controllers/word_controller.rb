@@ -7,6 +7,7 @@ class WordController < ApplicationController
     end
 
     def search
+        # インスタンス変数使う
         $word = ""
         $meaning = ""
         $ids = [""]
@@ -18,17 +19,19 @@ class WordController < ApplicationController
 
     def new
         @word = Word.new
-        @similars = nil
+        # @similars = nil   nilなら定義しなくて良さそう
     end
 
     def create
-        @word = Word.new(parent_params)
-        @word.user_id = $current_user.id
+        # @word = Word.new(parent_params)
+        # @word.user_id = $current_user.id
+        @word = @current_user.words.build(parent_params)
         @tag_ids = params[:word][:tag_ids] 
         @tag_ids = params.require(:word).permit(tag_ids: [])[:tag_ids]
         if @word.save
             @tag_ids.each do |tag_id|
-                if(tag_id != nil)
+                # if(tag_id != nil)
+                if tag_id.present?
                     @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
                     @tag_word.save
                 end
@@ -56,6 +59,7 @@ class WordController < ApplicationController
 
     def result
         if params[:name] && (params[:name] != "")
+            # グローバル変数使わない
             $word = params[:name]
         end
         if params[:meaning] && (params[:meaning] != "")
@@ -68,7 +72,8 @@ class WordController < ApplicationController
             $similar = params[:similar]
         end
 
-        if $word != ""
+        # if $word != ""
+        if $word.present? #こちらを使う
             @words = Word.where("name like ?","%#{$word}%")
         end
         if $meaning != ""
@@ -87,6 +92,7 @@ class WordController < ApplicationController
             end
         end
         if $similar != ""
+            # viewで使っていないならインスタンス変数でなくローカル変数で良い
             @similar_ids = Similar.where("name like ?","%#{$similar}%").pluck(:word_id).uniq
             if @words
                 @words = @words.where(id: @similar_ids)
@@ -119,7 +125,7 @@ class WordController < ApplicationController
     end
 
     def edit
-        @word = Word.find_by(id: params[:id])
+        @word = Word.find_by(id: params[:id]) # before_actionに定義
         @similars = Similar.where(word_id: @word.id)
         @datas = []
         @tag_words = TagWord.where(word_id: params[:id])

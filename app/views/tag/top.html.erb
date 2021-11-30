@@ -3,8 +3,8 @@
     <div class="layout">
         <%= link_to("新規作成","/tag/new") %>
         <%= form_with url: "/tag/search" do |f| %> 
-        <%= f.search_field :search %>
-        <%= f.submit "検索" %>  
+            <%= f.search_field :search %>
+            <%= f.submit "検索" %>  
         <% end %>
         <%= link_to("メインメニュー","/main") %>
     </div>

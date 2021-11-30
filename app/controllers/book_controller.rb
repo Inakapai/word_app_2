@@ -3,8 +3,8 @@ class BookController < ApplicationController
     
 
     def top
-        @wordbooks = Wordbook.where(user_id: $current_user.id).page(params[:page]).per(4)
-        @number = Word.all.size
+        @wordbooks = Wordbook.where(user_id: @current_user.id).page(params[:page]).per(4)
+        #@number = Word.all.size
     end
 
     def create
@@ -36,6 +36,7 @@ class BookController < ApplicationController
             @question_ids.push(@question.id)
             @question_ids.flatten!
         end
+        # wordbookとquestionの中間テーブル作った方が良い
         @wordbook = Wordbook.new(q1_id: @question_ids[0],
                                  q2_id: @question_ids[1],
                                  q3_id: @question_ids[2],
@@ -237,7 +238,7 @@ class BookController < ApplicationController
         @wordbook.finish_number = params[:id]
         @wordbook.finish_id = params[:q_id]
         @wordbook.save
-        redirect_to("/book/#{@wordbook.finish_number}/midwayresult/#{@wordbook.finish_id}")
+        redirect_to("/book/#{@wordbook.finish_number}/midwayresult/#{@wordbook.finish_id}") #path使う
     end
 
     def continue
@@ -252,6 +253,7 @@ class BookController < ApplicationController
         @number = 1
         @count = 0
         @user_before_rate = nil
+        # 必要なカラムを絞った方が良さそう
         @users = User.all.order(highest_rate: "DESC")
     end
 
