@@ -28,11 +28,11 @@ class WordController < ApplicationController
         @tag_ids = params.require(:word).permit(tag_ids: [])[:tag_ids]
         if @word.save
             @tag_ids.each do |tag_id|
-                if(tag_id != nil)
-                    @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
-                    @tag_word.save
-                end
+                next unless (tag_id != nil)
+                @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
+                @tag_word.save
             end
+
             if params.require(:word)[:image]
                 @word.image_name = "#{@word.id}.png"
                 image = params.require(:word)[:image]
@@ -55,44 +55,23 @@ class WordController < ApplicationController
 
 
     def result
-        if params[:name] && (params[:name] != "")
-            $word = params[:name]
-        end
-        if params[:meaning] && (params[:meaning] != "")
-            $meaning = params[:meaning]
-        end
-        if params[:tag_ids] && (params[:tag_ids] != [""])
-            $ids = params[:tag_ids]
-        end
-        if params[:name] && (params[:similar] != "")
-            $similar = params[:similar]
-        end
 
-        if $word != ""
-            @words = Word.where("name like ?","%#{$word}%")
-        end
-        if $meaning != ""
-            if @words
-                @words = @words.where("meaning like ?","%#{$meaning}%")
-            else
-                @words = Word.where("meaning like ?","%#{$meaning}%")
-            end
-        end
+
+        $word   = params[:name]      if params[:name] && (params[:name] != "")
+        $meaning = params[:meaning]  if params[:meaning] && (params[:meaning] != "")
+        $ids     = params[:tag_ids]  if params[:tag_ids] && (params[:tag_ids] != [""])
+        $similar = params[:similar]  if params[:name] && (params[:similar] != "")
+
+        @words = Word.where("name like ?","%#{$word}%")   if $word != ""
+        @words =  (@words || Word).where("meaning like ?","%#{$meaning}%")
+
         if $ids != [""]
             @tag_word_ids = TagWord.where(tag_id: $ids).pluck(:word_id)
-            if @words
-                @words = @words.where(id: @tag_word_ids)
-            else
-                @words = Word.where(id: @tag_word_ids)
-            end
+            @words = (@words || Word).where(id: @tag_word_ids)
         end
         if $similar != ""
             @similar_ids = Similar.where("name like ?","%#{$similar}%").pluck(:word_id).uniq
-            if @words
-                @words = @words.where(id: @similar_ids)
-            else
-                @words = Word.where(id: @similar_ids)
-            end
+            @words =  (@words || Word).where(id: @similar_ids)
         end
         respond_to do |format|
             format.html
@@ -144,21 +123,16 @@ class WordController < ApplicationController
         end
         if @word.save
             @tag_ids.each do |tag_id|
-                if(tag_id != nil && tag_id != "")
-                    @tag_word_solid = TagWord.find_by(tag_id: tag_id, word_id: @word.id)
-                    if !@tag_word_solid 
-                        @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
-                        @tag_word.save
-                    end
-                end
+                next unless (tag_id != nil && tag_id != "")
+                @tag_word_solid = TagWord.find_by(tag_id: tag_id, word_id: @word.id)
+                next if @tag_word_solid
+                @tag_word = TagWord.new(tag_id: tag_id, word_id: @word.id)
+                @tag_word.save
             end
             if params[:word][:image]
-
                 @word.image_name = "#{@word.id}.png"
                 image=params[:word][:image]
-                if File.exist?("#{@word.image_name}")
-                    File.delete("#{@word.image_name}")
-                end
+                File.delete("#{@word.image_name}")   if File.exist?("#{@word.image_name}")
                 File.binwrite("public/word_images/#{@word.image_name}",image.read)
                 @word.save
             end
